@@ -1,7 +1,7 @@
 {
   "name": "imagefetcher",
   "preferGlobal": "false",
-  "author" : "Jay Zeng <jayzeng@jay-zeng.com, Niek Sanders <niek@hasoffers.com>",
+  "author" : "Jay Zeng <jayzeng@jay-zeng.com>, Niek Sanders <niek@hasoffers.com>",
   "description": "Demo app to illustrate how to use socketio",
   "version": "0.0.1",
   "repository": {
