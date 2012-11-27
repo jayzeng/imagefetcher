@@ -1,9 +1,19 @@
 {
   "name": "imagefetcher",
+  "preferGlobal": "false",
+  "author" : "Jay Zeng <jayzeng@jay-zeng.com, Niek Sanders <niek@hasoffers.com>",
   "description": "Demo app to illustrate how to use socketio",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jayzeng/imagefetcher.git"
+  },
   "dependencies": {
     "socket.io": "0.9.11"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=0.8"
   },
   "private": "true"
 }
