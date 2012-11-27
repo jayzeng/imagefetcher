@@ -1,5 +1,5 @@
 {
-  "name": "image fetcher",
+  "name": "imagefetcher",
   "description": "Demo app to illustrate how to use socketio",
   "version": "0.0.1",
   "dependencies": {
