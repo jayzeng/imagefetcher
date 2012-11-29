@@ -1,4 +1,4 @@
-Image sharing chatroom.
+Image sharing chatroom ( written by Jay Zeng, @nieksand Niek Sanders )
 
 Just type a keyword in to the search box. We pull the first google image
 search result and show it to everyone connected to the webpage.
