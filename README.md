@@ -12,8 +12,3 @@ How to run:
 - npm install
 - node server.js
 - open http://localhost:8080
-
-TODO:
-- Add unit test
-- Use twitter bootstrap to improve UI/UX
-- User Auth and session management
