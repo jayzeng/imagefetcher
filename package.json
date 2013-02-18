@@ -13,7 +13,8 @@
   },
   "license": "MIT",
   "engines": {
-    "node": ">=0.8"
+    "node": "0.8.x",
+    "npm": "1.1.x"
   },
   "private": "true"
 }
