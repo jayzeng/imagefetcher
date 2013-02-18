@@ -1,123 +1,161 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8" />
-  <title>Funny images fecther</title>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Funny images fecther</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-  <style type="text/css">
-  h1 {
-    color: Olive;
-  }
-
-  #imgArena {
-    width: 400px;
-  }
-  </style>
-
-  <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
-  <script src="/socket.io/socket.io.js"></script>
-  <script type="text/javascript">
-  /*
-   * Socket IO magic
-   */
-  var socket = io.connect('http://localhost:8080/image');
-  socket.on('image', function (data) {
-    addImage( data.url );
-  });
-
-
-  /*
-   * Handle google API response
-   */
-  function googleApiHandler( resp ) {
-
-    // first google api result
-    var imgUrl = resp.responseData.results[0].unescapedUrl;
-
-    // display locally
-    addImage( imgUrl );
-
-    // tell everyone else about it.... go Socket.IO!!!!
-    socket.emit( 'image', {url: imgUrl} );
-  }
-
-
-  /*
-   * Add image to stream
-   */
-  function addImage( imgUrl ) {
-
-    // add image
-    var imgDiv$ = $('<div>').prependTo( $('#imgArena') );
-    var img$ = $('<img>').hide();
-
-    img$.load(
-      function() {
-
-        // show it
-        img$.show();
-
-        // scale it if needed
-        var width = img$.width();
-        var height = img$.height();
-        var maxDim = Math.max( width, height );
-        var scaleFactor = Math.min( 1, 300 / maxDim );
-
-        img$.css( {'width':  width * scaleFactor,
-                   'height': height * scaleFactor} );
-
-        // purge once we get too many images
-        var maxImgCnt = 20;
-        $('#imgArena img').slice( maxImgCnt ).remove();
-
-      } )
-    .attr( 'src', imgUrl ).prependTo( imgDiv$ );
-  }
-
-
-  /*
-   * Ready handler
-   */
-  $( function() {
-
-    // clicking on submit displays locally and dispatches to other page
-    // viewers
-    $('#searchForm').submit( function(e) {
-
-        // search keywords
-        var searchBox$ = $('input[type=text]');
-        var kw = encodeURIComponent( searchBox$.val() );
-
-        // clear search box
-        searchBox$.val('');
-
-        // dispatch to google api
-        $.ajax( { type: 'GET',
-                  url: 'https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=' + kw + '&callback=googleApiHandler',
-                  success: googleApiHandler,
-                  dataType: 'jsonp' } );
-
-        // stop event bubbling
-        return false;
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 20px;
+        padding-bottom: 40px;
       }
-    );
 
-  } );
-  </script>
+      /* Custom container */
+      .container-narrow {
+        margin: 0 auto;
+        max-width: 700px;
+      }
+      .container-narrow > hr {
+        margin: 30px 0;
+      }
 
-</head>
-<body>
+      .jumbotron {
+        margin: 60px 0;
+        text-align: center;
+      }
+      .jumbotron h1 {
+        font-size: 72px;
+        line-height: 1;
+      }
+    </style>
 
-<h1>Image fetcher</h1>
+    <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+    /*
+     * Socket IO magic
+     */
+    var socket = io.connect('http://localhost:8080/image');
+    socket.on('image', function (data) {
+      addImage( data.url );
+    });
 
-<p>Image search term</p>
-<form name="meowmixifyForm" method="get" id="searchForm">
-  <input type="text"> <input type="submit" value="Show">
-</form>
 
-<div id="imgArena">
-  <img id="imgView" />
-</div>
+    /*
+     * Handle google API response
+     */
+    function googleApiHandler( resp ) {
 
-</body>
+      // first google api result
+      var imgUrl = resp.responseData.results[0].unescapedUrl;
+
+      // display locally
+      addImage( imgUrl );
+
+      // tell everyone else about it.... go Socket.IO!!!!
+      socket.emit( 'image', {url: imgUrl} );
+    }
+
+
+    /*
+     * Add image to stream
+     */
+    function addImage( imgUrl ) {
+
+      // add image
+      var imgDiv$ = $('<li>').prependTo( $('#imgArena') );
+      imgDiv$.addClass('span4');
+      var img$ = $('<img>').hide();
+
+      img$.load(
+        function() {
+
+          // show it
+          img$.show();
+
+          // scale it if needed
+          var width = img$.width();
+          var height = img$.height();
+          var maxDim = Math.max( width, height );
+          var scaleFactor = Math.min( 1, 300 / maxDim );
+
+          img$.css( {'width':  width * scaleFactor,
+                     'height': height * scaleFactor} );
+
+          // purge once we get too many images
+          var maxImgCnt = 20;
+          $('#imgArena img').slice( maxImgCnt ).remove();
+
+        } )
+      .attr( 'src', imgUrl ).prependTo( imgDiv$ );
+    }
+
+
+    /*
+     * Ready handler
+     */
+    $( function() {
+
+      // clicking on submit displays locally and dispatches to other page
+      // viewers
+      $('#searchForm').submit( function(e) {
+
+          // search keywords
+          var searchBox$ = $('input[type=text]');
+          var kw = encodeURIComponent( searchBox$.val() );
+
+          // clear search box
+          searchBox$.val('');
+
+          // dispatch to google api
+          $.ajax( { type: 'GET',
+                    url: 'https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=' + kw + '&callback=googleApiHandler',
+                    success: googleApiHandler,
+                    dataType: 'jsonp' } );
+
+          // stop event bubbling
+          return false;
+        }
+      );
+
+    } );
+    </script>
+  </head>
+
+  <body>
+
+    <div class="container-narrow">
+
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+        </ul>
+        <h3 class="muted">Feeling bored? Find image of the day!</h3>
+      </div>
+
+      <hr>
+
+      <div class="jumbotron">
+          <form class="form-search" method="get" id="searchForm">
+            <input class="span3" type="text" class="input-medium search-query" required>
+            <button type="submit" class="btn btn-success">Show</button>
+          </form>
+
+          <ul id="imgArena" class="row-fluid">
+          </ul>
+      </div>
+
+      <hr>
+
+      <div class="footer">
+        <p>&copy; Jay Zeng &amp; Niek Sanders 2013</p>
+      </div>
+
+    </div> <!-- /container -->
+  </body>
 </html>

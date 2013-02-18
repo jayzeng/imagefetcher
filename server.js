@@ -1,6 +1,6 @@
 var fs = require('fs')
     , http = require('http')
-    , port = process.env.PORT || 80
+    , port = 8080
     , socketio = require('socket.io');
 
 var server = http.createServer(function(req, res) {
