@@ -19,3 +19,8 @@ TODO:
 - User Auth and session management
 
 Demo app: http://fetchmyimage.herokuapp.com/
+
+Steps to deploy on Heroku:
+- heroku apps:create fetchmyimage
+- git push heroku master
+- heroku ps:scale web=1
